@@ -1,11 +1,16 @@
 import dotenv from "dotenv";
-import { resolve } from "path";
+// import { resolve } from "path";
+
+import "./database";
 
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
 import homeRoutes from "./routes/home";
+import userRoutes from "./routes/user";
+import tokenRoutes from "./routes/token";
+import dbaseRoutes from "./routes/dbase";
 
 dotenv.config();
 
@@ -37,6 +42,9 @@ class App {
 
   routes() {
     this.app.use("/", homeRoutes);
+    this.app.use("/users/", userRoutes);
+    this.app.use("/tokens/", tokenRoutes);
+    this.app.use("/dbases/", dbaseRoutes);
   }
 }
 
