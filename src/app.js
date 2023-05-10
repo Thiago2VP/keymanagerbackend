@@ -10,7 +10,7 @@ const userRoutes = require('./routes/user');
 const tokenRoutes = require('./routes/token');
 const wordsRoutes = require('./routes/words');
 
-const whiteList = ['http://localhost:3000'];
+const whiteList = [process.env.FRONT_URL];
 
 const corsOptions = {
   origin: function (origin, callback) {
