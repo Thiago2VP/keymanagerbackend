@@ -1,9 +1,13 @@
 require('dotenv').config();
+require('./models');
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
 const homeRoutes = require('./routes/home');
+const userRoutes = require('./routes/user');
+const tokenRoutes = require('./routes/token');
 
 const whiteList = ['http://localhost:3000'];
 
@@ -33,6 +37,8 @@ class App {
   
   routes() {
     this.app.use('/', homeRoutes);
+    this.app.use('/users', userRoutes);
+    this.app.use('/tokens', tokenRoutes);
   }
 }
 
