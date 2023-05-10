@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const homeRoutes = require('./routes/home');
 const userRoutes = require('./routes/user');
 const tokenRoutes = require('./routes/token');
+const wordsRoutes = require('./routes/words');
 
 const whiteList = ['http://localhost:3000'];
 
@@ -39,6 +40,7 @@ class App {
     this.app.use('/', homeRoutes);
     this.app.use('/users', userRoutes);
     this.app.use('/tokens', tokenRoutes);
+    this.app.use('/words', wordsRoutes);
   }
 }
 

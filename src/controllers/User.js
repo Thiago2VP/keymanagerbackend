@@ -8,7 +8,7 @@ class UserController {
     try {
       const newUser = await User.create(req.body);
       const { id, name, email } = newUser;
-      return res.json({ id, name, email });
+      return res.status(200).json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -22,7 +22,7 @@ class UserController {
       if (!user) return res.status(400).json({ errors: ["Usuário não existe"] });
       const userUpdated = await user.update(req.body);
       const { id, name, email } = userUpdated;
-      return res.json({ id, name, email });
+      return res.status(200).json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -36,7 +36,7 @@ class UserController {
       if (!user) return res.status(400).json({ errors: ["Usuário não existe"] });
       const { id, name, email } = user;
       await user.destroy();
-      return res.json({ id, name, email });
+      return res.status(200).json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),

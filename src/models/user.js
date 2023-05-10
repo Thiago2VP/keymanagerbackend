@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     passwordIsValid(password) {
       return bcryptjs.compare(password, this.passwordHash);
-    }/*
+    }
     static associate(models) {
       User.hasMany(models.Words, { foreignKey: 'userId' });
-    }*/
+    }
   }
   User.init({
     name: {
