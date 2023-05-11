@@ -1,7 +1,7 @@
 class Home {
   async index(req, res) {
     try {
-      res.send('Success');
+      res.status(200).send('Success');
     } catch (err) {
       res.status(404).json(err);
     }

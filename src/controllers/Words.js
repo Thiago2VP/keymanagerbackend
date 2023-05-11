@@ -3,13 +3,18 @@ const { DataTypes, json } = require('sequelize');
 const db = require('../models/index');
 const Words = words(db.sequelize, DataTypes);
 
+require('dotenv').config();
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr(process.env.CYRPTR_KEY);
+
 class WordsController {
   async store(req, res) {
     try {
-      const { name, login, keyPass } = req.body;
+      const { name, login } = req.body;
+      const keyPass = cryptr.encrypt(req.body.keyPass);
       const userId = req.userId;
       const word = await Words.create({ name, login, keyPass, userId });
-      return res.status(200).json(word);
+      return res.status(201).json(word);
     } catch (e) {
       return res.status(400).json({
         errors: ['Dado não pôde ser guardado'],
@@ -23,6 +28,9 @@ class WordsController {
         attributes: ['id', 'name', 'login', 'keyPass', 'userId'],
       });
       const userWords = words.filter((word) => word.userId === req.userId);
+      for (let word of userWords) {
+        word.keyPass = cryptr.decrypt(word.keyPass);
+      }
       return res.status(200).json(userWords);
     } catch (e) {
       return res.status(400).json({
@@ -38,7 +46,8 @@ class WordsController {
       if (word.userId !== req.userId) return res.status(401).json({
         errors: ['O dado não pertence ao usuário']
       });
-      const { name, login, keyPass } = req.body;
+      const { name, login } = req.body;
+      const keyPass = cryptr.encrypt(req.body.keyPass);
       const userId = req.userId;
       const wordUpdated = await word.update({ name, login, keyPass, userId });
       return res.status(200).json({
