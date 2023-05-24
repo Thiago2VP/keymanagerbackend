@@ -39,6 +39,33 @@ class WordsController {
     }
   }
 
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).json({
+          errors: ['Faltando ID'],
+        });
+      }
+
+      const word = await Words.findByPk(id, {
+        attributes: ['id', 'name', 'login', 'keyPass', 'userId'],
+      });
+      if (!word) {
+        return res.status(400).json({
+          errors: ['Informação de conta não existe'],
+        });
+      }
+      word.keyPass = cryptr.decrypt(word.keyPass);
+      return res.status(200).json(word);
+    } catch (e) {
+      return res.status(400).json({
+        errors: ['Dado não pôde ser encontrado'],
+      });
+    }
+  }
+
   async update(req, res) {
     try {
       const word = await Words.findByPk(req.params.id);
