@@ -8,7 +8,7 @@ class UserController {
     try {
       const users = await User.findAll();
       for (let user of users) {
-        if (user.email === req.body.email) return res.status(400).json({
+        if (user.email === req.body.email) return res.status(401).json({
           errors: ['Email já cadastrado']
         })
       }
